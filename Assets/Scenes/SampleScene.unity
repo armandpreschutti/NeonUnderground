@@ -1439,7 +1439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6916451524064785667, guid: 26a0f1b43d024ec46bc6272a476fb53b, type: 3}
       propertyPath: movementSpeed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6916451524064785667, guid: 26a0f1b43d024ec46bc6272a476fb53b, type: 3}
       propertyPath: style.Array.size

@@ -63,7 +63,7 @@ public class MeleeHandler : MonoBehaviour
         if (!isAttacking && !isBlocking) 
         {             
             anim.SetTrigger("Attack");
-            
+            AttackMovement();
         }
     }
     public void StartBlock(InputAction.CallbackContext context)
