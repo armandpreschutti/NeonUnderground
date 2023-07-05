@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Cinemachine;
 public class MeleeHandler : MonoBehaviour
 {
     public Rigidbody rb;
@@ -16,10 +16,21 @@ public class MeleeHandler : MonoBehaviour
     public bool isAttacking;
     public bool isBlocking;
     public bool isEquiped;
+    
     public float movementSpeed;
+    public float horizontalInput;
+    public float verticalInput;
+
     public GameObject weapon;
     public RuntimeAnimatorController[] styles;
     public GameObject dummy;
+    public Animator cameraAnim;
+
+    // test var
+    public Transform target;
+    public float rotationSpeed = 5f;
+    public float strafeSpeed = 3f;
+    public bool isLockedOn = false;
 
     private void Awake()
     {
@@ -38,7 +49,7 @@ public class MeleeHandler : MonoBehaviour
 
         equip = playerInput.Player.Equip;
         equip.Enable();
-        equip.performed += Equip;
+        equip.performed += Aim;
     }
 
     private void OnDisable()
@@ -56,6 +67,18 @@ public class MeleeHandler : MonoBehaviour
     public void Update()
     {
         DetectAttack();
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+
+
+    }
+    public void FixedUpdate()
+    {
+        if (isLockedOn && target != null)
+        {
+            RotateTowardsTarget();
+            Strafe();
+        }
     }
 
     public void Attack(InputAction.CallbackContext context)
@@ -69,6 +92,7 @@ public class MeleeHandler : MonoBehaviour
     public void StartBlock(InputAction.CallbackContext context)
     {
         isBlocking= true;
+        strafeSpeed = strafeSpeed / 2;
         if (!isAttacking)
         {
             anim.SetBool("IsBlocking", true);
@@ -81,6 +105,7 @@ public class MeleeHandler : MonoBehaviour
     public void EndBlock(InputAction.CallbackContext context)
     {
         isBlocking = false;
+        strafeSpeed = strafeSpeed * 2;
         if (!isAttacking)
         {
             anim.SetBool("IsBlocking", false);
@@ -91,24 +116,11 @@ public class MeleeHandler : MonoBehaviour
         }
     }
 
-    public void Equip(InputAction.CallbackContext context)
+    public void Aim(InputAction.CallbackContext context)
     {
-        if (!isEquiped)
-        {
-            //weapon.SetActive(true);
-            anim.runtimeAnimatorController = styles[1];
-            isEquiped= true;
-        }
-        else if(isEquiped)
-        {
-            //weapon.SetActive(false);
-            anim.runtimeAnimatorController = styles[0];
-            isEquiped = false;
-        }
-        else
-        {
-            return;
-        }
+        cameraAnim.SetTrigger("SwitchCamera");
+
+        isLockedOn = !isLockedOn;
     }
 
     public void DetectAttack()
@@ -128,5 +140,38 @@ public class MeleeHandler : MonoBehaviour
         Vector3 direction = (dummy.gameObject.transform.position - transform.position).normalized;
         rb.AddForce(direction * movementSpeed, ForceMode.VelocityChange);
     }
+    public void ToggleStandard()
+    {
+        weapon.SetActive(false);
+        anim.runtimeAnimatorController = styles[0];
+        isEquiped = false;
+    }
+    public void ToggleWeapon()
+    {
+        weapon.SetActive(true);
+        anim.runtimeAnimatorController = styles[1];
+        isEquiped = true;
+    }
+    public void ToggleMagic()
+    {
+        weapon.SetActive(false);
+        anim.runtimeAnimatorController = styles[2];
+        isEquiped = true;
+    }
+    private void RotateTowardsTarget()
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        rb.MoveRotation(targetRotation);
+    }
+
+    private void Strafe()
+    {
+
+
+        Vector3 strafeDirection = transform.right * horizontalInput + transform.forward * verticalInput;
+        rb.MovePosition(rb.position + strafeDirection * strafeSpeed * Time.deltaTime);
+    }
+
 
 }
