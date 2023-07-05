@@ -6,15 +6,20 @@ using UnityEngine.InputSystem;
 
 public class MeleeHandler : MonoBehaviour
 {
+    public Rigidbody rb;
+    //public List<AttackSO> style;
     public PlayerInput playerInput;
-    //public List<AttackSO> attacks;
-    public Animator anim;
-    public int comboCounter;
-    public bool isAttacking;
-    public InputAction fire;
+    public InputAction attack;
     public InputAction block;
-    public AnimatorClipInfo[] clipInfo;
+    public InputAction equip;
+    public Animator anim;
+    public bool isAttacking;
     public bool isBlocking;
+    public bool isEquiped;
+    public float movementSpeed;
+    public GameObject weapon;
+    public RuntimeAnimatorController[] styles;
+    public GameObject dummy;
 
     private void Awake()
     {
@@ -22,27 +27,30 @@ public class MeleeHandler : MonoBehaviour
     }
     private void OnEnable()
     {
-        fire = playerInput.Player.Fire;
-        fire.Enable();
-        fire.performed += Attack;
+        attack = playerInput.Player.Fire;
+        attack.Enable();
+        attack.performed += Attack;
 
         block = playerInput.Player.Block;
         block.Enable();
         block.started += StartBlock;
         block.canceled += EndBlock;
+
+        equip = playerInput.Player.Equip;
+        equip.Enable();
+        equip.performed += Equip;
     }
 
     private void OnDisable()
     {
-        fire.Disable();
+        attack.Disable();
         block.Disable();
+        equip.Disable();
     }
     public void Start()
     {
-        anim = GetComponent<Animator>();
-
-       
-        
+        anim = GetComponent<Animator>();      
+        rb = GetComponent<Rigidbody>();
     }
 
     public void Update()
@@ -55,6 +63,7 @@ public class MeleeHandler : MonoBehaviour
         if (!isAttacking && !isBlocking) 
         {             
             anim.SetTrigger("Attack");
+            
         }
     }
     public void StartBlock(InputAction.CallbackContext context)
@@ -81,13 +90,25 @@ public class MeleeHandler : MonoBehaviour
             return;
         }
     }
-    
-    public void DebugAnimation()
+
+    public void Equip(InputAction.CallbackContext context)
     {
-        //Get the animator clip information from the Animator Controller
-        clipInfo = anim.GetCurrentAnimatorClipInfo(0);
-        //Output the name of the starting clip
-        Debug.Log("Starting clip : " + clipInfo[0].clip);      
+        if (!isEquiped)
+        {
+            //weapon.SetActive(true);
+            anim.runtimeAnimatorController = styles[1];
+            isEquiped= true;
+        }
+        else if(isEquiped)
+        {
+            //weapon.SetActive(false);
+            anim.runtimeAnimatorController = styles[0];
+            isEquiped = false;
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void DetectAttack()
@@ -102,5 +123,10 @@ public class MeleeHandler : MonoBehaviour
         }
     }
     
+    public void AttackMovement()
+    {
+        Vector3 direction = (dummy.gameObject.transform.position - transform.position).normalized;
+        rb.AddForce(direction * movementSpeed, ForceMode.VelocityChange);
+    }
 
 }
