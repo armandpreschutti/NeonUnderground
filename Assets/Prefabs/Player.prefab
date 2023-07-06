@@ -43,7 +43,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755862700235150247}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 270e96596e3b8ba4c88de57f38a5a352, type: 3}
   m_Controller: {fileID: 9100000, guid: eac44bdf47cf7a54a9013090d6f5756e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -67,8 +67,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38b9bdb38f703947acf5b9127881842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacks: []
-  comboCounter: 0
+  rb: {fileID: 0}
+  attack:
+    m_Name: Attack
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 991152c1-fe07-438f-9ae4-d8df214c2496
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  block:
+    m_Name: Block
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: adf407d6-c2cd-4f54-b758-f371b3b21e3f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  equip:
+    m_Name: Equip
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9426959d-7c19-409d-9fe8-566e7b898371
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  anim: {fileID: 0}
+  isAttacking: 0
+  isBlocking: 0
+  isEquiped: 0
+  movementSpeed: 0
+  horizontalInput: 0
+  verticalInput: 0
+  weapon: {fileID: 0}
+  styles: []
+  dummy: {fileID: 0}
+  cameraAnim: {fileID: 0}
+  target: {fileID: 0}
+  rotationSpeed: 5
+  strafeSpeed: 3
+  isLockedOn: 0
 --- !u!1 &3341212632924078664
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,10 +377,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7813590141776298306, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -1525253381413818895, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+    - target: {fileID: -4706228988682842286, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3090848061168836670, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
       propertyPath: m_Name
       value: Y-Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 5822821947120931875, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4777371684598551356, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
     - target: {fileID: 5866666021909216657, guid: 81b7516d7f5a71f40b0ca15a2f38e631, type: 3}
       propertyPath: m_Controller
       value: 
