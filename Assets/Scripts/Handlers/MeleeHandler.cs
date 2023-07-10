@@ -82,7 +82,7 @@ public class MeleeHandler : MonoBehaviour
     {
         if (isLockedOn && target != null)
         {
-            FaceTarget();
+            //FaceTarget();
             if (!anim.GetCurrentAnimatorStateInfo(0).IsTag("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
                 
@@ -94,12 +94,10 @@ public class MeleeHandler : MonoBehaviour
             }
             else
             {
+
                 return;
             }
             Vector3 distance = target.GetComponent<Rigidbody>().position - rb.position;
-            /*Debug.Log(distance);
-            Debug.Log(distance.sqrMagnitude);*/
-
         }
     }
 
@@ -192,29 +190,14 @@ public class MeleeHandler : MonoBehaviour
         Vector3 distance = target.GetComponent<Rigidbody>().position - rb.position;
         Vector3 strafeDirection = transform.right * horizontalInput + transform.forward * verticalInput;
         rb.MovePosition(rb.position + strafeDirection * strafeSpeed * Time.deltaTime);
-        /*if (distance.sqrMagnitude > combatDistance.sqrMagnitude)
-        {
-            Vector3 strafeDirection = transform.right * horizontalInput + transform.forward * verticalInput;
-            rb.MovePosition(rb.position + strafeDirection * strafeSpeed * Time.deltaTime);
-        }*/
             
         
     }
     public void AttackMovement()
     {
         Vector3 distance = target.GetComponent<Rigidbody>().position - rb.position;
-        Vector3 newPosition = Vector3.Lerp(rb.position, target.GetComponent<Rigidbody>().position, /*anim.GetCurrentAnimatorStateInfo(0).normalizedTime*/ movementSpeed * Time.deltaTime);
+        Vector3 newPosition = Vector3.Lerp(rb.position, target.GetComponent<Rigidbody>().position, movementSpeed * Time.deltaTime);
         rb.MovePosition(newPosition);
-        /*if (distance.sqrMagnitude > combatDistance.sqrMagnitude)
-        {
-            Vector3 newPosition = Vector3.Lerp(rb.position, target.GetComponent<Rigidbody>().position, anim.GetCurrentAnimatorStateInfo(0).normalizedTime movementSpeed * Time.deltaTime);
-            rb.MovePosition(newPosition);
-        }
-        else
-        {
-            return;
-        }*/
-
     }
 
 }
