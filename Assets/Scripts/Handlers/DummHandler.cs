@@ -24,8 +24,8 @@ public class DummHandler : MonoBehaviour
     }
     private void RotateTowardsTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        /*Vector3 direction = (target.position - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        rb.MoveRotation(targetRotation);
+        rb.MoveRotation(targetRotation);*/
     }
 }
